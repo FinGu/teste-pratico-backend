@@ -4,10 +4,10 @@ Feito com adonisjs, mysql e docker para executar os componentes, incluso os mock
 
 ## Como executar o sistema: 
 
-Renomear o arquivo env para ser usado pelo ambiente e instalar as dependencias:
+Instalar as dependencias (.env ja configurado):
 
 ```
-$ mv env .env && npm install
+$ npm install
 ```
 
 Executar os containers:
