@@ -1,0 +1,42 @@
+services: 
+  db:
+    container_name: db 
+    image: mysql
+    restart: always
+    environment: 
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASS}
+      MYSQL_DATABASE: ${DB_DATABASE} 
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD} 
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql-data:/var/lib/mysql
+  gateways:
+    container_name: gateways
+    image: matheusprotzen/gateways-mock
+    restart: always
+    ports:
+      - 3001:3001
+      - 3002:3002
+  teste_pratico:
+    container_name: teste_pratico
+    restart: always
+    build:
+      context: .
+      target: dependencies 
+    depends_on:
+      - db
+      - gateways
+    ports:
+      - ${PORT}:${PORT}
+    env_file:
+      - .env
+    volumes:
+      - ./:/home/node/app
+      - /home/node/app/node_modules
+    #command: sh -c "node ace migration:run"
+    command: sh -c "node ace migration:run --force && dumb-init node ace serve --watch"
+    #command: sh -c "node ace migration:run --force && dumb-init node server.js"
+volumes:
+  mysql-data:
