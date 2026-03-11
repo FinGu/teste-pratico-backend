@@ -13,7 +13,7 @@ $ npm install
 Executar os containers:
 
 ```
-# docker compose run
+# docker compose up
 ```
 
 E, antes de testar, executar o seguinte comando para inserir dados de teste no sistema:
