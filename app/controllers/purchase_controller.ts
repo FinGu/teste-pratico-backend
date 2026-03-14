@@ -57,7 +57,7 @@ export default class PurchaseController{
 
           return response.ok({ id: transaction.id })
         }
-
+        
         last_error = gresult.error
       }
 

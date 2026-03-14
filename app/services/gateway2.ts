@@ -1,8 +1,8 @@
 import axios from 'axios'
 import env from '#start/env'
-import { GatewayError } from './gateway_handler.ts'
+import { GatewayError, GatewayInterface } from './gateway_handler.ts'
 
-export default class GatewayTwoService{
+export default class GatewayTwoService implements GatewayInterface{
   async process(data: any): Promise<string | GatewayError> {
     try {
       const response = await axios.post(`${env.get('G2_URL')}/transacoes`, {
@@ -10,7 +10,7 @@ export default class GatewayTwoService{
         nome: data.client.name,
         email: data.client.email,
         numeroCartao: data.card_number,
-        cvv: data.cvv.toString()
+        cvv: data.cvv
       }, {
         headers: {
           'Gateway-Auth-Token': env.get('G2_TOKEN'),
@@ -18,10 +18,8 @@ export default class GatewayTwoService{
         }
       })
 
-      let errno = response.data.success
-
-      if(typeof errno !== 'undefined'){
-        return { success: false, error: response.data.erros }
+      if(!response.data.success){
+          return { success: false, error: response.data.erros };
       }
 
       return response.data.id

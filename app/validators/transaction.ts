@@ -5,5 +5,5 @@ export const transactionValidator = vine.create({
     name: vine.string().maxLength(254),
     email: vine.string().email().maxLength(254),
     cardNumber: vine.string().minLength(13).maxLength(19),
-    cvv: vine.number().min(0).max(9999),
+    cvv: vine.string().minLength(0).maxLength(9999),
 })
