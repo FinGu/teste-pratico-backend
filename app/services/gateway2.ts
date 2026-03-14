@@ -18,8 +18,10 @@ export default class GatewayTwoService implements GatewayInterface{
         }
       })
 
-      if(!response.data.success){
-          return { success: false, error: response.data.erros };
+      const errno = response.data.erros
+
+      if(typeof errno != 'undefined'){
+          return { success: false, error: errno }
       }
 
       return response.data.id
