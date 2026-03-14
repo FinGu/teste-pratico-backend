@@ -45,7 +45,7 @@ export default class GatewayOneService implements GatewayInterface{
 
       return response.data.id
     } catch (error) {
-      return { success: false, error: error.message }
+      return { success: false, error: error.response.data }
     }
   }
 

@@ -7,12 +7,12 @@ export default class extends BaseSeeder {
       {
         name: 'G1',
         isActive: true,
-        priority: 2
+        priority: 3
       },
       {
         name: 'G2',
         isActive: true,
-        priority: 3
+        priority: 2
       }
     ])
 

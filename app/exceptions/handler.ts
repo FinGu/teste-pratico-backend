@@ -1,7 +1,8 @@
 import app from '@adonisjs/core/services/app'
 import { type HttpContext, ExceptionHandler } from '@adonisjs/core/http'
 import type { StatusPageRange, StatusPageRenderer } from '@adonisjs/core/types/http'
-import {errors} from '@adonisjs/auth'
+import {errors as auth_errors} from '@adonisjs/auth'
+import { errors as validation_errors } from '@vinejs/vine'
 
 export default class HttpExceptionHandler extends ExceptionHandler {
   /**
@@ -35,8 +36,12 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    * response to the client
    */
   async handle(error: unknown, ctx: HttpContext) {
-    if (error instanceof errors.E_INVALID_CREDENTIALS) {
-      return ctx.response.status(401).send('Unauthorized access')
+    if (error instanceof auth_errors.E_INVALID_CREDENTIALS) {
+      return ctx.response.status(401).send({ error: true, response: 'Unauthorized access' })
+    }
+
+    if (error instanceof validation_errors.E_VALIDATION_ERROR){
+      return ctx.response.status(400).send({ error: true, response: error.messages })
     }
 
     return super.handle(error, ctx)
